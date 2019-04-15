@@ -1,0 +1,168 @@
+<ion-header>
+  <ion-toolbar color="primary">
+      <ion-buttons slot="end">
+          <ion-button (click)="refresh()">
+              <ion-icon color="danger" name="refresh"></ion-icon>
+            </ion-button>
+          
+        </ion-buttons>
+    <ion-title>Mobi-Fest </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="row">
+    
+    <div class="column">
+        <ion-card (click)="traer(1,hoyCompleto)" [ngStyle]="{'background-color': hoyColor}" style="margin:0;">
+            <div class="divCol">
+              <h1 [ngStyle]="{'color': hoyNumColor}">{{diaLetraHoy}}</h1>
+              <p class="pClass">{{diaNumHoy}}</p>
+
+            </div>     
+          </ion-card>
+    </div>
+    <div class="column">
+        <ion-card (click)="traer(2,manCompleto)" [ngStyle]="{'background-color': manColor}" style="margin:0;">
+            <div class="divCol">
+              <h1 [ngStyle]="{'color': manNumColor}">{{diLM}}</h1>
+              <p class="pClass">{{diaNumMan}}</p>
+
+            </div>     
+          </ion-card>
+    </div>
+    <div class="column">
+        <ion-card (click)="traer(3,pasCompleto)" [ngStyle]="{'background-color': pasColor}" style="margin:0;">
+            <div class="divCol">
+              <h1 [ngStyle]="{'color': pasNumColor}">{{diLP}}</h1>
+              <p class="pClass">{{diaNumPas}}</p>
+
+            </div>     
+          </ion-card>
+    </div>
+    <div class="column">
+        <ion-card (click)="traer(4,trasCompleto)" [ngStyle]="{'background-color': trasColor}" style="margin:0;">
+            <div class="divCol">
+              <h1 [ngStyle]="{'color': trasNumColor}">{{diLT}}</h1>
+              <p class="pClass">{{diaNumTras}}</p>
+
+            </div>     
+          </ion-card>
+    </div>
+    <div class="column">
+        <ion-card (click)="traer(5,postCompleto)" [ngStyle]="{'background-color': postColor}" style="margin:0;">
+            <div class="divCol">
+              <h1 [ngStyle]="{'color': postNumColor}">{{diLPo}}</h1>
+              <p class="pClass">{{diaNumPost}}</p>
+
+            </div>     
+          </ion-card>
+    </div>
+   
+  </div>
+
+  <div *ngIf="lleno == true; else vacio">
+      <ion-list>
+
+          <ion-card *ngFor="let item of evento">
+            <ion-card-header> 
+                
+              <div style="text-align:center;">
+                
+                <h1 style="color:blue; font-size: 6vw;">{{item.nombre_evento}}</h1>
+                <p style="color:#000; font-size: 5vw;">{{item.nombre_titular_evento}}</p>
+                <p>{{item.telefono_titular_evento}}</p>
+              </div>
+              
+            </ion-card-header>
+          
+            <ion-card-content>
+
+                <div *ngIf="item.tipo == 0; else elseBlock"> 
+                  <h3 style="color:cornflowerblue;">Envio</h3> 
+                  <p style="color:#000">Direccion: {{item.direccion_evento}}</p>
+                  <p>Hora de envio: {{item.hora}}</p>
+                </div>
+                <ng-template #elseBlock> 
+                  <h3 style="color:blueviolet;">Recoleccion</h3> 
+                  <p style="color:#000">Direccion: {{item.direccion_evento}}</p>
+                  <p>Hora de recoleccion: {{item.hora}}</p>
+                </ng-template>
+              
+              <ion-list style="background-color: rgb(240, 246, 255)">
+                      <div *ngFor="let inv of item.inventario" class="row">
+                        <div style="float: left; width: 80%">
+                            <div style="text-align: left">
+                                <h5 style="font-size: 4vw;">{{inv.nombre_mob}}</h5>
+                            </div>    
+                        </div>
+                        <div style="float: left; width: 20%">
+                          <div style="text-align: right">
+                            <h5 style="font-size: 4vw; margin-right: 1vw; color: #000;">{{inv.ocupados}}</h5>
+                          </div>               
+                        </div>
+                      </div>
+                    
+              </ion-list>
+
+              <div style="text-align: center;">
+              <p>{{item.observaciones}}</p>
+              </div>
+
+                  
+
+
+              
+                
+                  <div *ngIf="item.tipo == 0; else recolec"> 
+
+                      <div style="text-align: center;" *ngIf="item.entregado == 1; else echoEnv"> 
+
+                          <h1 style="color:darkblue;">Inventario Entregado</h1>
+        
+                        </div>
+                          <ng-template #echoEnv>
+                              <h4 style="color:darkblue;">Tus Observaciones</h4>
+                              <ion-textarea [(ngModel)]="mensaje" style="background-color: rgb(236, 244, 255);"></ion-textarea>
+                              <ion-button color="danger" (click)="observaciones(item.id_evento, 0)" expand="full">Inventario Entregado</ion-button>
+                            </ng-template>
+                      
+                    </div>
+
+                  <ng-template #recolec> 
+                      <div style="text-align: center;" *ngIf="item.recolectado == 1; else echo"> 
+
+                        <h1 style="color:darkblue;">Inventario Recolectado</h1>
+
+                      </div>
+                        <ng-template #echo>
+                          <h4 style="color:darkblue;">Tus Observaciones</h4>
+                      <ion-textarea [(ngModel)]="mensaje" style="background-color: rgb(236, 244, 255);"></ion-textarea>
+                      <ion-button color="primary" (click)="observaciones(item.id_evento, 1)" expand="full">Inventario Recolectado</ion-button>
+                        </ng-template>
+                    
+                    </ng-template>
+                  
+              
+
+
+            </ion-card-content>
+          </ion-card>
+        </ion-list>
+  </div>
+<ng-template #vacio>
+
+  <div style="text-align: center;">
+    <h1 style="color: darkblue;">No hay Entregas para este Dia</h1>
+  </div>
+  
+</ng-template>
+
+
+
+  
+
+  
+
+</ion-content>

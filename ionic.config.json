@@ -1,5 +1,7 @@
 {
   "name": "mobifesttrabajadores",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
