@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../http.service';
+import { Storage } from '@ionic/storage';
+import { Router } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-principal',
@@ -74,7 +78,7 @@ export class PrincipalPage implements OnInit {
     postCompleto:string;
     diLPo:string;
 
-  constructor(public http:HttpService) { 
+  constructor(public http:HttpService, public storage:Storage, public router:Router) { 
 
  /////////////Hoy
   //  console.log("completo "+this.dateHoy);
@@ -167,6 +171,13 @@ export class PrincipalPage implements OnInit {
    
     
 
+  }
+
+  cerrarSesion(){
+    this.storage.set('USER', '');
+    this.storage.set('CONTRA', '');
+
+    this.router.navigateByUrl('/home');
   }
 
   mesEspanol(mes: string) {

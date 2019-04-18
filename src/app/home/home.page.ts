@@ -25,6 +25,12 @@ export class HomePage {
     storage.get('USER').then((val) => {
       this.usuario=val;
     });
+
+    if(this.usuario != "" ){
+      this.entrar();
+    }else {
+      console.log("no hay nada en el usuario");
+    }
  }
 
  
